@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body style="background-color: white;color: #000;padding-top: 20px;">
+    <div style="display:flex;flex-wrap: wrap; ;" id="container" class="container">
+        <a href="" class="logo text-reset text-decoration-none d-inline-block ">
+            <h3 style="background-color: red;border-radius: 15% ;padding: 5px; ">Product Listing Page</h3></a>  
+
+        <div style="padding-top: 5px; display: flex ;flex-wrap: wrap;" class="row">
+        <div  class="col-12 col-md-3 ">
+         
+                <div  class="form">
+                <input class="form-control product_search" placeholder="輸入產品編號或名稱">
+                      
+               
+                </div>
+
+      
+        </div>
+
+        <div class="col-12 col-md-4" >
+            
+                <div style="display: flex; flex-wrap:wrap ; " class="price">
+                <div class="form"style="display: flex; flex-wrap:wrap ; " >
+                <input style="width: 35%; display: block;"   class="form-control price_search_low" placeholder="$範圍">
+                <p style="width: 20%;display: block; text-align: center;">~</p>
+                <input style="width: 35%; display: block;"   class="form-control price_search_high" placeholder="$範圍">
+                
+                
+                </div>
+            </div>
+
+          
+        </div>
+        <div  class="col-12 col-md-4" >   
+
+            <select style="width: 50%;" class="form-select type_product "></select>
+
+        </div>
+        <div style="display: block;" class="col-12 col-md-1 " > 
+            <button class="btn btn-primary  search">Search</button>        
+        </div>
+        
+        </div>
+       
+        <div class="col-12 search_result d-flex flex-wrap">
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>   
+
+
+<script type="module">
+      import { product } from "../product.js";
+ 
+      let search_btn=document.querySelector(".search");
+      let show=document.getElementById("container");
+      let pdtarr;
+      let icon = document.querySelector(".icon");
+      window.onload=function(){
+     show1();
+      
+      }
+
+      function show1(){
+        pdtarr=[];
+        let search_result = document.querySelector(".search_result");
+        search_result.innerText = "";
+       product.forEach(element => {
+
+        let div=document.createElement("div");
+        let img = document.createElement("img");
+        img.setAttribute('src', 'https://picsum.photos/300/200/?random=10');
+        img.setAttribute('class', 'm-auto d-block w-100');
+        div.append(img);
+
+        div.setAttribute('class', 'col-12 col-md-4 ');
+        div.setAttribute('style', 'background-color: pink; border: 3px solid white; color: black; position: relative;;');
+        
+        Object.entries(element).forEach(_element => {
+            let pdt=document.createElement("p");
+             pdt.setAttribute('style','padding:10px');
+            pdt.innerText=`${_element[0]} ${_element[1]}`;
+            div.append(pdt);
+        });
+        search_result.append(div);
+
+        
+       });
+       
+      }
+      search_btn.addEventListener("click", search);
+
+      function search(){
+
+        let search_result = document.querySelector(".search_result");
+        search_result.innerText = "";
+
+        let search_ProductType = document.querySelector("select").value;
+        let search_low_price = document.querySelector(".price_search_low").value;
+        let search_high_price = document.querySelector(".price_search_high").value;
+        let search_condition_num_name = document.querySelector(".product_search").value;
+        let result =  product.filter(word => word.ProductNumber==search_condition_num_name );
+         result = result.filter(word =>search_low_price<= word.Price );
+         result=result.filter(word =>word.Price<=search_high_price);
+        
+        // let pricerange=product.filter(word=>word.Price==search_low_price)
+        // let pricerange1=product.filter(word=>word.Price==search_high_price)
+
+        pdtarr=[];
+        
+        result.forEach(element => {
+ 
+         let div=document.createElement("div");
+         let img = document.createElement("img");
+         img.setAttribute('src', 'https://picsum.photos/300/200/?random=10');
+         img.setAttribute('class', 'm-auto d-block w-100');
+         div.append(img);
+ 
+         div.setAttribute('class', 'col-12 col-md-4 ');
+         div.setAttribute('style', 'background-color: pink; border: 3px solid white; color: black; position: relative;;');
+         
+         Object.entries(element).forEach(_element => {
+             let pdt=document.createElement("p");
+              pdt.setAttribute('style','padding:10px');
+             pdt.innerText=`${_element[0]} ${_element[1]}`;
+             div.append(pdt);
+         });
+         search_result.append(div);
+ 
+         
+        });
+
+
+
+
+      }
+      
+      icon.addEventListener("click", reload);
+
+function reload() {
+    document.querySelector(".product_search").value = "";
+  
+   
+}
+
+</script>
+</body>
+</html>
