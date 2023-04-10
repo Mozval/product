@@ -41,7 +41,12 @@
         </div>
         <div  class="col-12 col-md-4" >   
 
-            <select style="width: 50%;" class="form-select type_product "></select>
+            <select style="width: 50%;" class="form-select type_product ">
+                <option></option>
+                <option>3C</option>
+                <option>飲料</option>
+                <option>食品</option>
+            </select>
 
         </div>
         <div style="display: block;" class="col-12 col-md-1 " > 
@@ -110,10 +115,18 @@ crossorigin="anonymous"></script>
         let search_low_price = document.querySelector(".price_search_low").value;
         let search_high_price = document.querySelector(".price_search_high").value;
         let search_condition_num_name = document.querySelector(".product_search").value;
-        let result =  product.filter(word => word.ProductNumber==search_condition_num_name );
-         result = result.filter(word =>search_low_price<= word.Price );
-         result=result.filter(word =>word.Price<=search_high_price);
         
+        let result =  product;
+        if (search_low_price!=''){
+        result = result.filter(word =>search_low_price<= word.Price );
+         result=result.filter(word =>word.Price<=search_high_price);
+
+        }
+       if( search_ProductType!=''){
+        result = product.filter(word =>word.ProductType==search_ProductType );
+       
+       }
+       //
         // let pricerange=product.filter(word=>word.Price==search_low_price)
         // let pricerange1=product.filter(word=>word.Price==search_high_price)
 
