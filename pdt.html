@@ -117,13 +117,16 @@ crossorigin="anonymous"></script>
         let search_condition_num_name = document.querySelector(".product_search").value;
         
         let result =  product;
+        if(search_condition_num_name!=''){
+            result = result.filter(word =>word.ProductNumber==search_condition_num_name);
+        }
         if (search_low_price!=''){
         result = result.filter(word =>search_low_price<= word.Price );
          result=result.filter(word =>word.Price<=search_high_price);
 
         }
        if( search_ProductType!=''){
-        result = product.filter(word =>word.ProductType==search_ProductType );
+        result = result.filter(word =>word.ProductType==search_ProductType );
        
        }
        //
